@@ -14,9 +14,6 @@ after_initialize do
       # request headers to find the best locale.
       # If there is a current user, use current_user.effective_locale to set the locale.
       # Finally, if there is no current user, set the locale to the default locale.
-      # The request headers use a '-' between the language and the region, the Discourse
-      # locales are symbols that use an '_' between the language and the region. The locale
-      # is converted to a symbol, the '_' is switched for '-' and then back to a '_'.
       I18n.locale = if !current_user && SiteSetting.allow_user_locale
                       available_locales = I18n.available_locales.map do |locale|
                         locale.to_s.gsub(/_/, '-')
