@@ -28,19 +28,7 @@ after_initialize do
 
   ApplicationHelper.class_eval do
     def rtl?
-      ['ar', 'fa_IR', 'he'].include?(current_locale)
-    end
-
-    def current_locale
-      if SiteSetting.allow_user_locale
-        if current_user
-          current_user.locale
-        else
-          I18n.locale.to_s
-        end
-      else
-        SiteSetting.default_locale
-      end
+      ['ar', 'fa_IR', 'he'].include? I18n.locale.to_s
     end
 
     def rtl_class
