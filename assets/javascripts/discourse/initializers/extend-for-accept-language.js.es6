@@ -6,6 +6,7 @@ export default {
 
   initialize() {
     UserModel.reopenClass({
+      // Adds the locale attribute
       createAccount(attrs) {
         return Discourse.ajax("/users", {
           data: {
@@ -24,13 +25,20 @@ export default {
     });
 
     CreateAccountController.reopen({
+      accountLocale: I18n.locale,
+
       availableLocales: function() {
         return this.siteSettings.available_locales.split('|').map(s => ({ name: s, value: s }));
+      }.property(),
+
+      currentLocale: function() {
+        return {name: I18n.locale, value: I18n.locale}
       }.property(),
 
       actions: {
         createAccount() {
           const self = this,
+            // Adds accountLocale to the attributes
             attrs = this.getProperties('accountName', 'accountEmail', 'accountLocale', 'accountPassword', 'accountUsername', 'accountPasswordConfirm', 'accountChallenge'),
             userFields = this.get('userFields');
 

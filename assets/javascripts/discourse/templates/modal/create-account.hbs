@@ -54,7 +54,7 @@
               <tr class="input">
                 <td class="label"><label for='new-account-locale'>{{i18n 'user.locale.title'}}</label></td>
                 <td>
-                  {{combo-box valueAttribute="value" id="new-account-locale" content=availableLocales value=accountLocale none="user.locale.default"}}
+                  {{combo-box valueAttribute="value" id="new-account-locale" content=availableLocales value=accountLocale none=currentLocale}}
                 </td>
               </tr>
               <tr class="instructions">
