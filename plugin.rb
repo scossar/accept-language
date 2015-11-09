@@ -35,4 +35,12 @@ after_initialize do
       'rtl' if rtl?
     end
   end
+
+  # Add :locale to the user_params
+  UsersController.class_eval do
+    def user_params
+      params.permit(:name, :email, :password, :username, :locale, :active)
+          .merge(ip_address: request.remote_ip, registration_ip_address: request.remote_ip)
+    end
+  end
 end
