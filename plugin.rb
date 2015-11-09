@@ -34,6 +34,7 @@ after_initialize do
     def rtl_class
       'rtl' if rtl?
     end
+
   end
 
   # Add :locale to the user_params
