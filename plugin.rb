@@ -22,7 +22,7 @@ after_initialize do
                     else
                       current_user ? current_user.effective_locale : SiteSetting.default_locale
                     end
-      I18n.fallbacks.ensure_loaded!
+      I18n.ensure_all_loaded!
     end
   end
 
