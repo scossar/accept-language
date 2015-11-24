@@ -3,27 +3,61 @@
 # version: 0.1
 # authors: scossar
 
+enabled_site_setting :accept_language_enabled
+
 gem 'http_accept_language', '2.0.5'
 
 after_initialize do
 
+  User.class_eval do
+    def preferred_locale?
+      # Has the user selected a locale other than the site's default?
+      self.locale.present?
+    end
+
+    def preferred_locale
+      self.locale
+    end
+  end
+
   ApplicationController.class_eval do
 
     def set_locale
-      # If there is no current user and user locales are enabled, use the 'accept_language'
-      # request headers to find the best locale.
-      # If there is a current user, use current_user.effective_locale to set the locale.
-      # Finally, if there is no current user, set the locale to the default locale.
-      I18n.locale = if !current_user && SiteSetting.allow_user_locale
-                      available_locales = I18n.available_locales.map do |locale|
-                        locale.to_s.gsub(/_/, '-')
-                      end
-                      http_accept_language.language_region_compatible_from(available_locales).gsub(/-/, '_')
-                    else
-                      current_user ? current_user.effective_locale : SiteSetting.default_locale
-                    end
-      I18n.ensure_all_loaded!
+      if SiteSetting.allow_user_locale
+        if !current_user
+          I18n.locale = locale_from_http_header
+        else
+          if current_user.preferred_locale?
+            I18n.locale = current_user.preferred_locale
+          elsif SiteSetting.accept_language_overrides_default_locale
+            I18n.locale = locale_from_http_header
+          else
+            I18n.locale = SiteSetting.default_locale
+          end
+        end
+      else
+        I18n.locale = SiteSetting.default_locale
+      end
+      begin
+        I18n.ensure_all_loaded!
+      rescue
+        # For Discourse versions prior to 1.5.0
+        I18n.fallbacks.ensure_loaded!
+      end
     end
+
+    def locale_from_http_header
+      begin
+        # Rails I18n uses underscores between the locale and the region; the request
+        # headers use hyphens.
+        available_locales = I18n.available_locales.map { |locale| locale.to_s.gsub(/_/, '-') }
+        http_accept_language.language_region_compatible_from(available_locales).gsub(/-/, '_')
+      rescue
+        # If Accept-Language headers are not set.
+        I18n.default_locale
+      end
+    end
+
   end
 
   ApplicationHelper.class_eval do
