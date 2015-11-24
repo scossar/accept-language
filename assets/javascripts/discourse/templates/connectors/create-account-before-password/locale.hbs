@@ -1,0 +1,11 @@
+{{#if siteSettings.allow_user_locale}}
+  <td class="label"><label
+      for='new-account-locale'>{{i18n 'user.locale.title'}}</label></td>
+  <td>
+    {{combo-box valueAttribute="value" id="new-account-locale" content=availableLocales value=accountLocale none=currentLocale}}
+    <br>
+    <span class="instructions">
+      {{i18n "accept_language.locale_selector.instructions"}}
+    </span>
+  </td>
+{{/if}}
