@@ -1,5 +1,5 @@
 en:
   site_settings:
     accept_language_enabled: "Enable the Accept Language plugin"
-    accept_language_overrides_default_locale: "Override the default locale for logged-in users?"
+    accept_language_overrides_default_locale: "Override the site default-locale for logged-in users who have not set their preferred locale?"
 

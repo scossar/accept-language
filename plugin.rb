@@ -1,11 +1,12 @@
 # name: accept-language
 # about: Sets the language for non-logged-in users from their browser's accept-language header
-# version: 0.1
+# version: 0.2
 # authors: scossar
+# url: https://github.com/scossar/accept-language
 
 enabled_site_setting :accept_language_enabled
 
-# register_asset 'stylesheets/accept-language.scss'
+register_asset 'stylesheets/accept-language.scss'
 
 gem 'http_accept_language', '2.0.5'
 
@@ -23,7 +24,6 @@ after_initialize do
   end
 
   ApplicationController.class_eval do
-
     def set_locale
       if SiteSetting.allow_user_locale
         if !current_user
@@ -40,10 +40,10 @@ after_initialize do
       else
         I18n.locale = SiteSetting.default_locale
       end
-      begin
+      # `I18n.ensure_all_loaded!` was added in Discourse version 1.5.
+      if I18n.respond_to? :ensure_all_loaded!
         I18n.ensure_all_loaded!
-      rescue
-        # For Discourse versions prior to 1.5.0
+      else
         I18n.fallbacks.ensure_loaded!
       end
     end
@@ -59,7 +59,6 @@ after_initialize do
         I18n.default_locale
       end
     end
-
   end
 
   ApplicationHelper.class_eval do
@@ -70,7 +69,6 @@ after_initialize do
     def rtl_class
       'rtl' if rtl?
     end
-
   end
 
   # Add :locale to the user_params
