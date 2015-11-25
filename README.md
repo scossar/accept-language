@@ -29,8 +29,8 @@ are being logged in with SSO to get started on the site in the appropriate langu
 ### Issues
 
 The activation email that is sent to a new user is still being sent in the site's
-default language. A temporary work-around for this is to translate the default locale's
-A workaround for this is to edit the activation email in `Admin>Customize>Email Templates>Signup`.
+default language. A workaround for this is to edit the activation email in
+`Admin>Customize>Email Templates>Signup` and translate it into your site's targeted languages.
 
 For sites where login is required to view any content, the 'login required welcome message'
 is cached in the language of the first locale that accesses it.
