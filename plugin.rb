@@ -1,6 +1,6 @@
 # name: accept-language
 # about: Sets the language for non-logged-in users from their browser's accept-language header
-# version: 0.2
+# version: 0.2.1
 # authors: scossar
 # url: https://github.com/scossar/accept-language
 
