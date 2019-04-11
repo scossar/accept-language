@@ -1,5 +1,8 @@
 ## Accept Language
 
+> ⚠ This plugin is no longer maintained or required. Setting the user's locale via the Accept Language header
+can now be accomplished by enabling the Discourse `set locale from accept language header` Site Setting.
+
 This Discourse plugin tries to set the locale for non-logged-in users from their
 browser's Accept-Language request header. It also adds a locale selector to the
 Discourse sign-up form. The default value of the locale selector is based off the
